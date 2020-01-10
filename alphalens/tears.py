@@ -252,11 +252,7 @@ def create_returns_tear_sheet(factor_data,
 
     trading_calendar = factor_data.index.levels[0].freq
     if trading_calendar is None:
-        trading_calendar = pd.tseries.offsets.BDay()
-        warnings.warn(
-            "'freq' not set in factor_data index: assuming business day",
-            UserWarning
-        )
+        raise Exception("'freq' not set in factor_data index")
 
     for p in factor_returns:
 
@@ -682,11 +678,7 @@ def create_event_study_tear_sheet(factor_data,
 
     trading_calendar = factor_data.index.levels[0].freq
     if trading_calendar is None:
-        trading_calendar = pd.tseries.offsets.BDay()
-        warnings.warn(
-            "'freq' not set in factor_data index: assuming business day",
-            UserWarning
-        )
+        raise Exception("'freq' not set in factor_data index")
 
     for p in factor_returns:
 

@@ -17,7 +17,6 @@ import pandas as pd
 import numpy as np
 import warnings
 
-from pandas.tseries.offsets import BDay
 from scipy import stats
 from statsmodels.regression.linear_model import OLS
 from statsmodels.tools.tools import add_constant
@@ -389,9 +388,7 @@ def cumulative_returns(returns, period, freq=None):
         freq = returns.index.freq
 
     if freq is None:
-        freq = BDay()
-        warnings.warn("'freq' not set, using business day calendar",
-                      UserWarning)
+        raise Exception("'freq' not set")
 
     #
     # returns index contains factor computation timestamps, then add returns
@@ -536,9 +533,7 @@ def positions(weights, period, freq=None):
         freq = weights.index.freq
 
     if freq is None:
-        freq = BDay()
-        warnings.warn("'freq' not set, using business day calendar",
-                      UserWarning)
+        raise Exception("'freq' not set")
 
     #
     # weights index contains factor computation timestamps, then add returns
