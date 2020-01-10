@@ -199,7 +199,7 @@ def factor_weights(factor_data,
 
     if group_adjust:
         weights = weights.groupby(level='date').apply(to_weights, False, False)
-
+    weights.index.freq = factor_data.index.levels[0].freq
     return weights
 
 
@@ -249,6 +249,7 @@ def factor_returns(factor_data,
         returns = weighted_returns
     else:
         returns = weighted_returns.groupby(level='date').sum()
+    returns.index.freq = factor_data.index.levels[0].freq
 
     return returns
 
@@ -524,8 +525,6 @@ def positions(weights, period, freq=None):
             2004-01-13 10:30:00   -13853.2800    13653.6400      -43.6375
     """
 
-    weights = weights.unstack()
-
     if not isinstance(period, pd.Timedelta):
         period = pd.Timedelta(period)
 
@@ -534,6 +533,7 @@ def positions(weights, period, freq=None):
 
     if freq is None:
         raise Exception("'freq' not set")
+    weights = weights.unstack()
 
     #
     # weights index contains factor computation timestamps, then add returns

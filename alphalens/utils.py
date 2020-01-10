@@ -911,8 +911,6 @@ def add_custom_calendar_timedelta(input, timedelta, freq):
     pd.DatetimeIndex or pd.Timestamp
         input + timedelta
     """
-    if not isinstance(freq, (Day, BusinessDay, CustomBusinessDay)):
-        raise ValueError("freq must be Day, BDay or CustomBusinessDay")
     days = timedelta.components.days
     offset = timedelta - pd.Timedelta(days=days)
     return input + freq * days + offset
@@ -937,7 +935,7 @@ def diff_custom_calendar_timedeltas(start, end, freq):
         end - start
     """
     if not isinstance(freq, (Day, BusinessDay, CustomBusinessDay)):
-        raise ValueError("freq must be Day, BusinessDay or CustomBusinessDay")
+        return end - start
 
     weekmask = getattr(freq, 'weekmask', None)
     holidays = getattr(freq, 'holidays', None)
